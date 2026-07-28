@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 Jacques Supcik <jacques.supci@hes-so.ch>
+#
+# SPDX-License-Identifier: MIT---
+- name: Validate system requirements
+  block:
+    - name: Ensure target Operating System is supported by MediaMTX
+      ansible.builtin.assert:
+        that:
+          - ansible_system | lower in mediamtx_supported_systems
+        fail_msg: >
+          System OS '{{ ansible_system }}' is not supported.
+          This role only supports: {{ mediamtx_supported_systems | join(', ') }}.
+        success_msg: 'Operating System configuration verified.'
+
+    - name: Ensure target Hardware Architecture is supported by MediaMTX
+      ansible.builtin.assert:
+        that:
+          - ansible_architecture in mediamtx_arch_map.keys()
+        fail_msg: >
+          Architecture '{{ ansible_architecture }}' is not supported by MediaMTX releases.
+          Supported architectures: {{ mediamtx_arch_map.keys() | join(', ') }}.
+        success_msg: 'Hardware architecture verified.'
+
+- name: Ensure target directories exist
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0755'
+  loop:
+    - '{{ mediamtx_install_dir }}'
+    - '{{ mediamtx_config_dir }}'
+
+- name: Download and extract MediaMTX binary
+  ansible.builtin.unarchive:
+    src: '{{ mediamtx_download_url }}'
+    dest: '{{ mediamtx_install_dir }}'
+    remote_src: true
+    mode: '0755'
+    extra_opts:
+      - 'mediamtx'
+  notify: Restart mediamtx
+
+- name: Fetch default configuration file from source repository
+  ansible.builtin.get_url:
+    url: '{{ mediamtx_config_url }}'
+    dest: '{{ mediamtx_config_dir }}/mediamtx.yml'
+    mode: '0644'
+    # force: false prevents overwriting the file if a user already customized it
+    force: false
+  notify: Restart mediamtx

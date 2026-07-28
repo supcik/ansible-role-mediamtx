@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 Jacques Supcik <jacques.supci@hes-so.ch>
+#
+# SPDX-License-Identifier: MIT
+---
+- name: Restart mediamtx
+  ansible.builtin.systemd:
+    name: mediamtx
+    state: restarted
+  # Prevent errors if the systemd service file hasn't been created yet
+  ignore_errors: true

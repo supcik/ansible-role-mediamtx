@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 Jacques Supcik <jacques.supci@hes-so.ch>
+#
+# SPDX-License-Identifier: MIT
+---
+mediamtx_version: '1.19.3'
+mediamtx_install_dir: '/usr/local/bin'
+mediamtx_config_dir: '/etc/mediamtx'
+mediamtx_config_url: 'https://githubusercontent.com{{ mediamtx_version }}/mediamtx.yml'
+
+# 1. Map Ansible architecture facts to MediaMTX release naming conventions
+mediamtx_arch_map:
+  x86_64: 'amd64'
+  aarch64: 'arm64'
+  armv7l: 'armv7'
+  i386: '386'
+
+# 2. Extract and match dynamically based on the current target server
+mediamtx_os: '{{ ansible_system | lower }}'
+mediamtx_arch: '{{ mediamtx_arch_map[ansible_architecture] | default(ansible_architecture) }}'
+
+# 3. Construct the clean download strings automatically
+mediamtx_archive_name: 'mediamtx_v{{ mediamtx_version }}_{{ mediamtx_os }}_{{ mediamtx_arch }}.tar.gz'
+mediamtx_download_url: 'https://github.com{{ mediamtx_version }}/{{ mediamtx_archive_name }}'
+
+mediamtx_supported_systems:
+  - 'linux'
+  - 'darwin' # macOS is supported by MediaMTX releases

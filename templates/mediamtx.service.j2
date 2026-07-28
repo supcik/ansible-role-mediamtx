@@ -1,0 +1,18 @@
+[Unit]
+Description=MediaMTX Realtime Media Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{ mediamtx_install_dir }}/mediamtx {{ mediamtx_config_dir }}/mediamtx.yml
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# Security sandbox features for modern Linux kernels
+ProtectSystem=full
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
