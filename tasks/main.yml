@@ -55,8 +55,8 @@
     dest: /etc/systemd/system/mediamtx.service
     mode: '0644'
   when:
-    - ansible_system | lower == 'linux'
-    - ansible_service_mgr == 'systemd'
+    - ansible_facts["system"] | lower == 'linux'
+    - ansible_facts["service_mgr"] == 'systemd'
   notify:
     - Reload systemd
     - Restart mediamtx
@@ -68,5 +68,5 @@
     state: started
     daemon_reload: true
   when:
-    - ansible_system | lower == 'linux'
-    - ansible_service_mgr == 'systemd'
+    - ansible_facts["system"] | lower == 'linux'
+    - ansible_facts["service_mgr"] == 'systemd'
