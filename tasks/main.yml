@@ -48,3 +48,25 @@
     # force: false prevents overwriting the file if a user already customized it
     force: false
   notify: Restart mediamtx
+
+- name: Install systemd service unit
+  ansible.builtin.template:
+    src: mediamtx.service.j2
+    dest: /etc/systemd/system/mediamtx.service
+    mode: '0644'
+  when:
+    - ansible_system | lower == 'linux'
+    - ansible_service_mgr == 'systemd'
+  notify:
+    - Reload systemd
+    - Restart mediamtx
+
+- name: Ensure mediamtx service is enabled and started
+  ansible.builtin.systemd:
+    name: mediamtx
+    enabled: true
+    state: started
+    daemon_reload: true
+  when:
+    - ansible_system | lower == 'linux'
+    - ansible_service_mgr == 'systemd'

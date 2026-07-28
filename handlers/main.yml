@@ -2,9 +2,20 @@
 #
 # SPDX-License-Identifier: MIT
 ---
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+  when:
+    - ansible_system | lower == 'linux'
+    - ansible_service_mgr == 'systemd'
+
 - name: Restart mediamtx
   ansible.builtin.systemd:
     name: mediamtx
     state: restarted
+    daemon_reload: true
+  when:
+    - ansible_system | lower == 'linux'
+    - ansible_service_mgr == 'systemd'
   # Prevent errors if the systemd service file hasn't been created yet
   ignore_errors: true
