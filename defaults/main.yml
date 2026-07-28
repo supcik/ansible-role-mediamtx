@@ -15,8 +15,8 @@ mediamtx_arch_map:
   i386: '386'
 
 # 2. Extract and match dynamically based on the current target server
-mediamtx_os: '{{ ansible_system | lower }}'
-mediamtx_arch: '{{ mediamtx_arch_map[ansible_architecture] | default(ansible_architecture) }}'
+mediamtx_os: '{{ ansible_facts["system"] | lower }}'
+mediamtx_arch: '{{ mediamtx_arch_map[ansible_facts["architecture"]] | default(ansible_facts["architecture"]) }}'
 
 # 3. Construct the clean download strings automatically
 mediamtx_archive_name: 'mediamtx_v{{ mediamtx_version }}_{{ mediamtx_os }}_{{ mediamtx_arch }}.tar.gz'
