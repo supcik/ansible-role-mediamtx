@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Jacques Supcik <jacques.supci@hes-so.ch>
 #
-# SPDX-License-Identifier: MITgalaxy_info:
+# SPDX-License-Identifier: MIT
+galaxy_info:
   author: Jacques Supcik
   description: MediaMtx role for Ansible
   company: HEIA-FR
