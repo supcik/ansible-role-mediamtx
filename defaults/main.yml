@@ -6,6 +6,7 @@ mediamtx_version: '1.19.3'
 mediamtx_install_dir: '/usr/local/bin'
 mediamtx_config_dir: '/etc/mediamtx'
 mediamtx_config_url: 'https://raw.githubusercontent.com/bluenviron/mediamtx/refs/tags/v{{ mediamtx_version }}/mediamtx.yml'
+mediamtx_service_enabled: false
 
 # 1. Map Ansible architecture facts to MediaMTX release naming conventions
 mediamtx_arch_map:

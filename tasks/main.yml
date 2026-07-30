@@ -61,11 +61,11 @@
     - Reload systemd
     - Restart mediamtx
 
-- name: Ensure mediamtx service is enabled and started
+- name: Ensure mediamtx service state matches role configuration
   ansible.builtin.systemd:
     name: mediamtx
-    enabled: true
-    state: started
+    enabled: '{{ mediamtx_service_enabled | bool }}'
+    state: '{{ "started" if (mediamtx_service_enabled | bool) else "stopped" }}'
     daemon_reload: true
   when:
     - ansible_facts["system"] | lower == 'linux'

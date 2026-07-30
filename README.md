@@ -24,6 +24,7 @@ The role exposes the following variables through defaults/main.yml:
 - `mediamtx_install_dir`: Directory where the MediaMTX binary is installed (default: `/usr/local/bin`)
 - `mediamtx_config_dir`: Directory where the configuration file is stored (default: `/etc/mediamtx`)
 - `mediamtx_config_url`: URL of the default MediaMTX configuration file
+- `mediamtx_service_enabled`: Whether the systemd service should be enabled and started (default: `false`)
 - `mediamtx_supported_systems`: Supported operating systems for the role
 
 ## Dependencies
